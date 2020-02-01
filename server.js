@@ -13,3 +13,5 @@ server.get('/', (req, res) => {
        `<h2>Welcome to my API</h2>`
     )
 })
+
+module.exports = server;
