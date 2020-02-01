@@ -29,14 +29,7 @@ router.get('/:id', validateCarID, (req, res) => {
 
 // POST request /cars
 router.post('/', (req, res) => {
-    const data = {
-        VIN: req.body.VIN,
-        make: req.body.make,
-        model: req.body.model,
-        mileage: req.body.mileage,
-        transmission_type: req.body.transmission_type,
-        title_status: req.body.title_status,
-    };
+    const data = req.body;
     db('cars')
         .insert(data)
         .then(ids => {
@@ -54,6 +47,22 @@ router.post('/', (req, res) => {
             console.log(err)
             res.status(500).json({error: 'Could not post account info'})
         })
+})
+
+//PUT request /cars/:id
+router.put('/:id', validateCarID, validateCar, (req, res) => {
+    const id = req.params.id;
+    const changes = req.body;
+    db('cars')
+    .where({id})
+    .update(changes)
+    .then(post => {
+        res.status(201).json(post)
+    })
+    .catch(err => {
+        console.log(err)
+        res.status(500).json({error: 'Could not update car data'})
+    })
 })
 
 //custom middleware
