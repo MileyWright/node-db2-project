@@ -14,6 +14,19 @@ router.get('/', (req, res) => {
     })
 })
 
+// GET request /cars/:id
+router.get('/:id', validateAccountID, (req, res) => {
+    const id = req.params.id;
+    db('cars')
+    .where({'id': id})
+    .then(car => {
+        res.status(200).json(car)
+    })
+    .catch(err => {
+        res.status(500).json({error: 'can not retrieve account by ID'})
+    })
+})
+
 //custom middleware
 function validateAccountID(req, res, next) {
     const id = req.params.id;
