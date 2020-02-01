@@ -14,4 +14,27 @@ router.get('/', (req, res) => {
     })
 })
 
+//custom middleware
+function validateAccountID(req, res, next) {
+    const id = req.params.id;
+    db('cars')
+        .where({'id': id})
+        .then(car => {
+            if(car == ''){
+                res.status(400).json({error: 'The specified ID does not exist'})
+            } else{
+                next();
+            }
+        })
+}
+
+function validateAccount(req, res, next) {
+    const data = req.body;
+    if(!data.VIN || !data.make || !data.model || !data.mileage){
+        res.status(400).json({message: 'missing car data'})
+    } else {
+        next();
+    }
+}
+
 module.exports = router;
