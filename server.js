@@ -10,6 +10,6 @@ server.use('/cars', cars);
 
 server.get('/', (req, res) => {
     res.send(
-       <h2>Welcome to my API</h2>
+       `<h2>Welcome to my API</h2>`
     )
 })
